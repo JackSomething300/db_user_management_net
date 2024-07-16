@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement_Application.DTO_Entities;
+using UserManagement_Application.Interfaces;
 
 namespace UserManagement_API.Controllers
 {
@@ -8,17 +9,55 @@ namespace UserManagement_API.Controllers
     [ApiController]
     public class UserManagementController : ControllerBase
     {
-        [HttpGet]
-        public async Task<ActionResult<List<UserDTO>>> GetAllUsers()
+        private readonly IUserService _userService;
+
+        public UserManagementController(IUserService userService)
         {
-            var users = new List<UserDTO>
+            _userService = userService;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDTO>> GetUser(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
             {
-                new UserDTO { Id = 1, Name = "User1" },
-                new UserDTO { Id = 2, Name = "User2" }
-            };
+                return NotFound();
+            }
+            return Ok(user);
+        }
 
-
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
+        {
+            var users = await _userService.GetAllUsersAsync();
             return Ok(users);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateUser(UserDTO userDto)
+        {
+            await _userService.AddUserAsync(userDto);
+            return CreatedAtAction(nameof(GetUser), new { id = userDto.Id }, userDto);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateUser(int id, UserDTO userDto)
+        {
+            if (id != userDto.Id)
+            {
+                return BadRequest();
+            }
+
+            await _userService.UpdateUserAsync(userDto);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            await _userService.DeleteUserAsync(id);
+            return NoContent();
         }
 
     }   
