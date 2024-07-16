@@ -1,4 +1,4 @@
-﻿namespace UserManagement_API.Entities
+﻿namespace UserManagement_Core.Entities
 {
     public class Permission
     {
