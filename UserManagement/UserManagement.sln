@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement_API", "UserM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement_Core", "UserManagement.Core\UserManagement_Core.csproj", "{7921E29F-DA6E-481E-8CD2-ED34275DC4C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement_Infrastructure", "UserManagement_Infrastructure\UserManagement_Infrastructure.csproj", "{1108B8DA-095A-4A6C-80BC-C0E8D7507694}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement_Application", "UserManagement_Application\UserManagement_Application.csproj", "{C1D3C839-34E5-4DAB-BAE1-E839A6D9C860}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{7921E29F-DA6E-481E-8CD2-ED34275DC4C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7921E29F-DA6E-481E-8CD2-ED34275DC4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7921E29F-DA6E-481E-8CD2-ED34275DC4C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1108B8DA-095A-4A6C-80BC-C0E8D7507694}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1108B8DA-095A-4A6C-80BC-C0E8D7507694}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1108B8DA-095A-4A6C-80BC-C0E8D7507694}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1108B8DA-095A-4A6C-80BC-C0E8D7507694}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C1D3C839-34E5-4DAB-BAE1-E839A6D9C860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1D3C839-34E5-4DAB-BAE1-E839A6D9C860}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1D3C839-34E5-4DAB-BAE1-E839A6D9C860}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UserManagement_Core.Entities;
 
-namespace UserManagement_Infrastructure.Data
+namespace UserManagement_API.Data
 {
     public class DataContext : DbContext
     {

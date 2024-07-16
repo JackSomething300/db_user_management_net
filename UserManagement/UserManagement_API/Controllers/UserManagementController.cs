@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using UserManagement_API.Entities;
+using UserManagement_Application.DTO_Entities;
 
 namespace UserManagement_API.Controllers
 {
@@ -9,12 +9,12 @@ namespace UserManagement_API.Controllers
     public class UserManagementController : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAllUsers()
+        public async Task<ActionResult<List<UserDTO>>> GetAllUsers()
         {
-            var users = new List<User>
+            var users = new List<UserDTO>
             {
-                new User { Id = 1, Name = "User1" },
-                new User { Id = 2, Name = "User2" }
+                new UserDTO { Id = 1, Name = "User1" },
+                new UserDTO { Id = 2, Name = "User2" }
             };
 
 

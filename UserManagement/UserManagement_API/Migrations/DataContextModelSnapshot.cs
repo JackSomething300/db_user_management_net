@@ -21,7 +21,7 @@ namespace UserManagement_API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("UserManagement_API.Entities.Group", b =>
+            modelBuilder.Entity("UserManagement_Core.Entities.Group", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,7 @@ namespace UserManagement_API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UserManagement_API.Entities.GroupPermission", b =>
+            modelBuilder.Entity("UserManagement_Core.Entities.GroupPermission", b =>
                 {
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -67,7 +67,7 @@ namespace UserManagement_API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UserManagement_API.Entities.Permission", b =>
+            modelBuilder.Entity("UserManagement_Core.Entities.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -91,7 +91,7 @@ namespace UserManagement_API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UserManagement_API.Entities.User", b =>
+            modelBuilder.Entity("UserManagement_Core.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,7 +115,7 @@ namespace UserManagement_API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UserManagement_API.Entities.UserGroup", b =>
+            modelBuilder.Entity("UserManagement_Core.Entities.UserGroup", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -137,15 +137,15 @@ namespace UserManagement_API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UserManagement_API.Entities.GroupPermission", b =>
+            modelBuilder.Entity("UserManagement_Core.Entities.GroupPermission", b =>
                 {
-                    b.HasOne("UserManagement_API.Entities.Group", "Group")
+                    b.HasOne("UserManagement_Core.Entities.Group", "Group")
                         .WithMany("GroupPermissions")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UserManagement_API.Entities.Permission", "Permission")
+                    b.HasOne("UserManagement_Core.Entities.Permission", "Permission")
                         .WithMany("GroupPermissions")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -156,15 +156,15 @@ namespace UserManagement_API.Migrations
                     b.Navigation("Permission");
                 });
 
-            modelBuilder.Entity("UserManagement_API.Entities.UserGroup", b =>
+            modelBuilder.Entity("UserManagement_Core.Entities.UserGroup", b =>
                 {
-                    b.HasOne("UserManagement_API.Entities.Group", "Group")
+                    b.HasOne("UserManagement_Core.Entities.Group", "Group")
                         .WithMany("UserGroups")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UserManagement_API.Entities.User", "User")
+                    b.HasOne("UserManagement_Core.Entities.User", "User")
                         .WithMany("UserGroups")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -175,19 +175,19 @@ namespace UserManagement_API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("UserManagement_API.Entities.Group", b =>
+            modelBuilder.Entity("UserManagement_Core.Entities.Group", b =>
                 {
                     b.Navigation("GroupPermissions");
 
                     b.Navigation("UserGroups");
                 });
 
-            modelBuilder.Entity("UserManagement_API.Entities.Permission", b =>
+            modelBuilder.Entity("UserManagement_Core.Entities.Permission", b =>
                 {
                     b.Navigation("GroupPermissions");
                 });
 
-            modelBuilder.Entity("UserManagement_API.Entities.User", b =>
+            modelBuilder.Entity("UserManagement_Core.Entities.User", b =>
                 {
                     b.Navigation("UserGroups");
                 });
