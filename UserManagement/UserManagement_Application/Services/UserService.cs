@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,55 +14,35 @@ namespace UserManagement_Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<UserDTO>> GetUsersAsync()
         {
             var users = await _userRepository.GetUsersAsync();
-            // Map entities to DTOs
-            return users.Select(user => new UserDTO
-            {
-                Id = user.Id,
-                Name = user.Name
-                // Other properties
-            }).ToList();
+            return _mapper.Map<IEnumerable<UserDTO>>(users);
         }
 
         public async Task<UserDTO> GetUserByIdAsync(int id)
         {
             var user = await _userRepository.GetUserByIdAsync(id);
-            // Map entity to DTO
-            return new UserDTO
-            {
-                Id = user.Id,
-                Name = user.Name
-                // Other properties
-            };
+            return _mapper.Map<UserDTO>(user);
         }
 
         public async Task AddUserAsync(UserDTO userDto)
         {
-            var user = new User
-            {
-                Id = userDto.Id,
-                Name = userDto.Name
-                // Other properties
-            };
+            User user = _mapper.Map<User>(userDto);
             await _userRepository.AddUserAsync(user);
         }
 
         public async Task UpdateUserAsync(UserDTO userDto)
         {
-            var user = new User
-            {
-                Id = userDto.Id,
-                Name = userDto.Name
-                // Other properties
-            };
+            User user = _mapper.Map<User>(userDto);
             await _userRepository.UpdateUserAsync(user);
         }
 
@@ -73,7 +54,7 @@ namespace UserManagement_Application.Services
         public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllUsersAsync();
-            return users.Select(user => new UserDTO { Id = user.Id, Name = user.Name /* Map other properties */ });
+            return _mapper.Map<IEnumerable<UserDTO>>(users);
         }
     }
 }

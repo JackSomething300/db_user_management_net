@@ -8,7 +8,7 @@ using UserManagement_API.Data;
 using UserManagement_Core.Entities;
 using UserManagement_Core.Interfaces;
 
-namespace UserManagement_Infrastructure.Services
+namespace UserManagement_API.Data
 {
     public class UserRepository : IUserRepository
     {
