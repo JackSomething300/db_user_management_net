@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement_Core", "User
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement_Application", "UserManagement_Application\UserManagement_Application.csproj", "{C1D3C839-34E5-4DAB-BAE1-E839A6D9C860}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement_Presentation", "UserManagement_Presentation\UserManagement_Presentation.csproj", "{FDDA71B5-DEEA-4763-B965-6224B8E98B47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C1D3C839-34E5-4DAB-BAE1-E839A6D9C860}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1D3C839-34E5-4DAB-BAE1-E839A6D9C860}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1D3C839-34E5-4DAB-BAE1-E839A6D9C860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDDA71B5-DEEA-4763-B965-6224B8E98B47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDDA71B5-DEEA-4763-B965-6224B8E98B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDDA71B5-DEEA-4763-B965-6224B8E98B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDDA71B5-DEEA-4763-B965-6224B8E98B47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
