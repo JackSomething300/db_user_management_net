@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UserManagement_Application\UserManagement_Application.csproj" />
+  </ItemGroup>
+
 </Project>
