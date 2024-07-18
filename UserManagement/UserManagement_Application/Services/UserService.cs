@@ -40,6 +40,7 @@ namespace UserManagement_Application.Services
             await _userRepository.AddUserAsync(user);
         }
 
+
         public async Task UpdateUserAsync(UserDTO userDto)
         {
             User user = _mapper.Map<User>(userDto);

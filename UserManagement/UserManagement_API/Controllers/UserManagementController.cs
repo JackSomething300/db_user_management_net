@@ -35,8 +35,13 @@ namespace UserManagement_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateUser(UserDTO userDto)
+        public async Task<ActionResult> CreateUser([FromBody] UserDTO userDto)
         {
+            if (userDto == null || string.IsNullOrEmpty(userDto.Name))
+            {
+                return BadRequest("User cannot be null");
+            }
+
             await _userService.AddUserAsync(userDto);
             return CreatedAtAction(nameof(GetUser), new { id = userDto.Id }, userDto);
         }
@@ -60,5 +65,5 @@ namespace UserManagement_API.Controllers
             return NoContent();
         }
 
-    }   
+    }
 }
