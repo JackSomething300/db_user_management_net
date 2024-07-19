@@ -14,6 +14,7 @@ namespace UserManagement_Core.Interfaces
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(int id);
         Task<IEnumerable<User>> GetUsersAsync();
+        Task<int> GetUsersTotalCount();
         Task UpdateUserAsync(User user);
     }
 }

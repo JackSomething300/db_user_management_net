@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UserManagement_Application.DTO_Entities;
 using UserManagement_Core.Entities;
+using UserManagement_Core.Entities.ViewModels;
 using UserManagement_Core.Interfaces;
 
 namespace UserManagement_API.Data
@@ -27,6 +29,27 @@ namespace UserManagement_API.Data
         {
             _context.Groups.Add(group);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> GetUsersPerGroupTotalCount()
+        {
+            return await _context.Users.CountAsync();
+        }
+
+        public async Task<List<GroupWithUserCount>> GetGroupsWithUserCounts()
+        {
+            return await _context.UserGroups
+                .GroupBy(ug => ug.Group)
+                .Select(g => new GroupWithUserCount
+                {
+                    Group = new Group
+                    {
+                        Id = g.Key.Id,
+                        Name = g.Key.Name,
+                    },
+                    UserCount = g.Count()
+                })
+                .ToListAsync();
         }
 
     }

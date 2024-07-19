@@ -15,5 +15,6 @@ namespace UserManagement_Application.Interfaces
         Task<IEnumerable<UserDTO>> GetUsersAsync();
         Task UpdateUserAsync(UserDTO userDto);
         Task<IEnumerable<UserDTO>> GetAllUsersAsync();
+        Task<int> GetUsersTotalCount();
     }
 }

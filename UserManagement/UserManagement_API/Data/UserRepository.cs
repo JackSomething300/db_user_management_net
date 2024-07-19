@@ -55,5 +55,10 @@ namespace UserManagement_API.Data
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<int> GetUsersTotalCount()
+        {
+            return await _context.Users.CountAsync();
+        }
     }
 }

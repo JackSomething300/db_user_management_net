@@ -57,5 +57,11 @@ namespace UserManagement_Application.Services
             var users = await _userRepository.GetAllUsersAsync();
             return _mapper.Map<IEnumerable<UserDTO>>(users);
         }
+
+        public async Task<int> GetUsersTotalCount()
+        {
+            var userscount = await _userRepository.GetUsersTotalCount();
+            return userscount;
+        }
     }
 }
