@@ -31,7 +31,13 @@ namespace UserManagement_API.Data
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            if (id > 0)
+            {
+                return await _context.Users.Include(u => u.UserGroups)
+                    .FirstOrDefaultAsync(u => u.Id == id);
+            }
+
+            return null;
         }
 
         public async Task AddUserAsync(User user)
@@ -42,18 +48,75 @@ namespace UserManagement_API.Data
 
         public async Task UpdateUserAsync(User user)
         {
-            _context.Entry(user).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            if (user != null && user.Id > 0)
+            {
+                try
+                {
+                    var existingUser = await _context.Users
+                        .Include(u => u.UserGroups)
+                        .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+                    if (existingUser == null)
+                    {
+                        throw new Exception("User not found");
+                    }
+
+                    _context.Entry(existingUser).CurrentValues.SetValues(user);
+
+                    foreach (var existingGroup in existingUser.UserGroups.ToList())
+                    {
+                        if (!user.UserGroups.Any(ug => ug.GroupId == existingGroup.GroupId))
+                        {
+                            _context.UserGroups.Remove(existingGroup);
+                        }
+                    }
+
+                    foreach (var incomingGroup in user.UserGroups)
+                    {
+                        var existingGroup = existingUser.UserGroups
+                            .FirstOrDefault(ug => ug.GroupId == incomingGroup.GroupId);
+
+                        if (existingGroup == null)
+                        {
+                            existingUser.UserGroups.Add(new UserGroup { UserId = user.Id, GroupId = incomingGroup.GroupId });
+                        }
+
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    var error = e.ToString();
+                }
+            }
+
         }
 
         public async Task DeleteUserAsync(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            try
             {
-                _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
+                var user = await _context.Users
+                .Include(u => u.UserGroups)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+                if (user != null)
+                {
+                    foreach (var userGroup in user.UserGroups.ToList())
+                    {
+                        _context.UserGroups.Remove(userGroup);
+                    }
+
+                    _context.Users.Remove(user);
+                    await _context.SaveChangesAsync();
+                }
             }
+            catch (Exception e)
+            {
+                var error = e.ToString();
+            }
+
         }
 
         public async Task<int> GetUsersTotalCount()
