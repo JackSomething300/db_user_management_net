@@ -117,11 +117,26 @@ namespace UserManagement_Presentation.Controllers
             return View(viewModel);
         }
 
+        [HttpPost, ActionName("DeleteConfirmed")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var httpClient = _httpClientFactory.CreateClient();
+            var response = await httpClient.DeleteAsync($"{_apiBaseUrl}{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return View("Error"); 
+            }
+        }
+
 
         public async Task<IActionResult> Delete(int id)
         {
             var httpClient = _httpClientFactory.CreateClient();
-            var response = await httpClient.GetAsync($"{_apiBaseUrl}/user/{id}");
+            var response = await httpClient.GetAsync($"{_apiBaseUrl}{id}");
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             var user = JsonSerializer.Deserialize<UserDTO>(responseBody, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
@@ -130,16 +145,6 @@ namespace UserManagement_Presentation.Controllers
                 return NotFound();
             }
             return View(user);
-        }
-
-
-        [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var httpClient = _httpClientFactory.CreateClient();
-            var response = await httpClient.DeleteAsync($"{_apiBaseUrl}/user/{id}");
-            response.EnsureSuccessStatusCode();
-            return RedirectToAction(nameof(Index));
         }
     }
 }
