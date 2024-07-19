@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text;
 using UserManagement_Application.DTO_Entities;
+using UserManagement_Presentation.Models;
 
 namespace UserManagement_Presentation.Controllers
 {
@@ -9,13 +10,14 @@ namespace UserManagement_Presentation.Controllers
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly string _apiBaseUrl = "https://localhost:7046/api/UserManagement/";
+        private readonly string _apiGroupBaseUrl = "https://localhost:7046/api/GroupManagement/";
 
         public UserManagementController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
 
-        // Display all users
+
         public async Task<IActionResult> Index()
         {
             var httpClient = _httpClientFactory.CreateClient();
@@ -26,28 +28,36 @@ namespace UserManagement_Presentation.Controllers
             return View(users);
         }
 
-        
-        public IActionResult Create()
+
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var httpClient = _httpClientFactory.CreateClient();
+            var response = await httpClient.GetAsync($"{_apiGroupBaseUrl}");
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var groups = JsonSerializer.Deserialize<IEnumerable<GroupDTO>>(responseBody, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            ViewBag.Groups = groups;
+            return View(new UserGroupViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(UserDTO userDto)
+        public async Task<IActionResult> Create(UserGroupViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            var userGroupDto = new UserGroupDTO
             {
-                var httpClient = _httpClientFactory.CreateClient();
-                var userJson = JsonSerializer.Serialize(userDto);
-                var content = new StringContent(userJson, Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync($"{_apiBaseUrl}", content);
-                response.EnsureSuccessStatusCode();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(userDto);
+                GroupId = viewModel.GroupId
+            };
+            viewModel.User.UserGroups = new List<UserGroupDTO> { userGroupDto };
+
+            var httpClient = _httpClientFactory.CreateClient();
+            var userJson = JsonSerializer.Serialize(viewModel.User);
+            var content = new StringContent(userJson, Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync($"{_apiBaseUrl}", content);
+            response.EnsureSuccessStatusCode();
+            return RedirectToAction(nameof(Index));
         }
 
-        
+
         public async Task<IActionResult> Edit(int id)
         {
             var httpClient = _httpClientFactory.CreateClient();
@@ -62,7 +72,7 @@ namespace UserManagement_Presentation.Controllers
             return View(user);
         }
 
-       
+
         [HttpPost]
         public async Task<IActionResult> Edit(UserDTO userDto)
         {
@@ -78,7 +88,7 @@ namespace UserManagement_Presentation.Controllers
             return View(userDto);
         }
 
-        
+
         public async Task<IActionResult> Delete(int id)
         {
             var httpClient = _httpClientFactory.CreateClient();
@@ -93,7 +103,7 @@ namespace UserManagement_Presentation.Controllers
             return View(user);
         }
 
-        
+
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
