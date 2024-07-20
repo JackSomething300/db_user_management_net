@@ -1,8 +1,11 @@
+using UserManagement_Presentation.Settings;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient();   
+builder.Services.AddHttpClient();
+builder.Services.Configure<APIConnectionStrings>(builder.Configuration.GetSection("APIConnectionStrings"));
 
 var app = builder.Build();
 

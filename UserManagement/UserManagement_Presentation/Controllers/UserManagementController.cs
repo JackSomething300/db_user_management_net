@@ -3,20 +3,25 @@ using System.Text.Json;
 using System.Text;
 using UserManagement_Application.DTO_Entities;
 using UserManagement_Presentation.Models;
+using UserManagement_Presentation.Settings;
+using Microsoft.Extensions.Options;
 
 namespace UserManagement_Presentation.Controllers
 {
     public class UserManagementController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly string _apiBaseUrl = "https://localhost:7046/api/UserManagement/";
-        private readonly string _apiGroupBaseUrl = "https://localhost:7046/api/GroupManagement/";
+        private readonly string _apiBaseUrl = "";
+        private readonly string _apiGroupBaseUrl = "";
         private readonly ILogger<UserManagementController> _logger;
+        private readonly APIConnectionStrings _apiConnectionStrings;
 
-        public UserManagementController(IHttpClientFactory httpClientFactory, ILogger<UserManagementController> logger)
+        public UserManagementController(IHttpClientFactory httpClientFactory, ILogger<UserManagementController> logger, IOptions<APIConnectionStrings> apiConnectionStrings)
         {
             _httpClientFactory = httpClientFactory;
             _logger = logger;
+            _apiBaseUrl = apiConnectionStrings.Value.BaseConnection;
+            _apiGroupBaseUrl = apiConnectionStrings.Value.GroupConnections;
         }
 
 
@@ -122,6 +127,11 @@ namespace UserManagement_Presentation.Controllers
         [HttpPost, ActionName("DeleteConfirmed")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (id == 1)
+            {
+                //cannot delete admin user
+                return RedirectToAction(nameof(Index));
+            }
             var httpClient = _httpClientFactory.CreateClient();
             var response = await httpClient.DeleteAsync($"{_apiBaseUrl}{id}");
             if (response.IsSuccessStatusCode)
