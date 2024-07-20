@@ -11,10 +11,12 @@ namespace UserManagement_Presentation.Controllers
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly string _apiBaseUrl = "https://localhost:7046/api/UserManagement/";
         private readonly string _apiGroupBaseUrl = "https://localhost:7046/api/GroupManagement/";
+        private readonly ILogger<UserManagementController> _logger;
 
-        public UserManagementController(IHttpClientFactory httpClientFactory)
+        public UserManagementController(IHttpClientFactory httpClientFactory, ILogger<UserManagementController> logger)
         {
             _httpClientFactory = httpClientFactory;
+            _logger = logger;
         }
 
 
