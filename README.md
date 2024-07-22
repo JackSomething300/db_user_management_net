@@ -11,7 +11,7 @@ Microsoft SQL Server: This project uses Microsoft SQL Server. You must have acce
 ## Getting Started
 ### Setup Instructions
 1. Clone the Repository: Start by cloning this repository to your local machine using Git.
-
+ **Please clean and rebuild the application to restore nuget packages and build the program. Thanks**
 bash
 ```
 git clone https://github.com/JackSomething300/db_user_management_net.git
