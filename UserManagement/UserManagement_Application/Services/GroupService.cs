@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UserManagement_Application.DTO_Entities;
 using UserManagement_Application.Interfaces;
 using UserManagement_Core.Entities;
+using UserManagement_Core.Entities.ViewModels;
 using UserManagement_Core.Interfaces;
 
 namespace UserManagement_Application.Services
@@ -39,6 +40,11 @@ namespace UserManagement_Application.Services
         {
             var group = await _groupRepository.GetGroupByIdAsync(id);
             return _mapper.Map<GroupDTO>(group);
+        }
+
+        public async Task<List<GroupWithUserCount>> GetGroupsWithUserCounts()
+        {
+            return await _groupRepository.GetGroupsWithUserCounts();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UserManagement_Application.DTO_Entities;
 using UserManagement_Core.Entities;
+using UserManagement_Core.Entities.ViewModels;
 using UserManagement_Core.Interfaces;
 
 namespace UserManagement_Application.Interfaces
@@ -14,5 +15,6 @@ namespace UserManagement_Application.Interfaces
         Task AddGroupAsync(GroupDTO group);
         Task<IEnumerable<GroupDTO>> GetAllGroups();
         Task<GroupDTO> GetGroupByIdAsync(int id);
+        Task<List<GroupWithUserCount>> GetGroupsWithUserCounts();
     }
 }

@@ -65,5 +65,12 @@ namespace UserManagement_API.Controllers
             return NoContent();
         }
 
+        [HttpGet("count")]
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsersTotalCount()
+        {
+            var usersCount = await _userService.GetUsersTotalCount();
+            return Ok("Total Users: " + usersCount);
+        }
+
     }
 }

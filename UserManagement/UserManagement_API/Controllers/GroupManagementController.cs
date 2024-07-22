@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using UserManagement_Application.DTO_Entities;
 using UserManagement_Application.Interfaces;
+using UserManagement_Application.Services;
+using UserManagement_Core.Entities.ViewModels;
 
 namespace UserManagement_API.Controllers
 {
@@ -45,6 +47,13 @@ namespace UserManagement_API.Controllers
             await _groupService.AddGroupAsync(groupDTO);
             //does lookup for newly added group and returns it
             return CreatedAtAction(nameof(GetGroup), new { id = groupDTO.Id }, groupDTO);
+        }
+
+        [HttpGet("count")]
+        public async Task<ActionResult<IEnumerable<GroupWithUserCount>>> GetGroupsTotalCount()
+        {
+            var groupsWithCounts = await _groupService.GetGroupsWithUserCounts();
+            return Ok(groupsWithCounts);
         }
     }
 }
