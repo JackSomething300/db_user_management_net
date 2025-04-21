@@ -30,7 +30,6 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    // Use SQL server if available.
     builder.Services.AddDbContext<DataContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 }
@@ -41,7 +40,6 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
     if (builder.Environment.IsDevelopment())
     {
-        // Seed the in-memory database with test data
         SeedDatabase(dbContext);
     }
     else
