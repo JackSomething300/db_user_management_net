@@ -5,6 +5,7 @@ using UserManagement_API.Data;
 using UserManagement_Application;
 using UserManagement_Application.Interfaces;
 using UserManagement_Application.Services;
+using UserManagement_Core.Entities;
 using UserManagement_Core.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,17 +22,34 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IGroupService, GroupService>();
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+if (builder.Environment.IsDevelopment())
+{
+    // Use InMemory database for development/testing
+    builder.Services.AddDbContext<DataContext>(options =>
+        options.UseInMemoryDatabase("TestDatabase"));
+}
+else
+{
+    // Use SQL server if available.
+    builder.Services.AddDbContext<DataContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-    if (!dbContext.Database.CanConnect())
+    if (builder.Environment.IsDevelopment())
     {
-        dbContext.Database.Migrate();
+        // Seed the in-memory database with test data
+        SeedDatabase(dbContext);
+    }
+    else
+    {
+        if (!dbContext.Database.CanConnect())
+        {
+            dbContext.Database.Migrate();
+        }
     }
 }
 
@@ -50,3 +68,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// Seed method for in-memory database
+void SeedDatabase(DataContext context)
+{
+    context.Users.Add(new User { Id = 1, Name = "John Doe" });
+    context.Users.Add(new User { Id = 2, Name = "Jane Doe" });
+    context.Users.Add(new User { Id = 3, Name = "Jack Doe" });
+    context.Users.Add(new User { Id = 4, Name = "Jake Doe" });
+    context.SaveChanges();
+}
