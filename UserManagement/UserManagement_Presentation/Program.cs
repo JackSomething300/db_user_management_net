@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Options;
+using UserManagement_Presentation.Controllers;
 using UserManagement_Presentation.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,5 +29,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=UserManagement}/{action=Index}/{id?}");
+
+var apiConnectionStrings = app.Services.GetRequiredService<IOptions<APIConnectionStrings>>();
+app.MapUserManagementEndpoints(apiConnectionStrings);
 
 app.Run();
